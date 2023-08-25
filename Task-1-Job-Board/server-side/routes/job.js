@@ -1,10 +1,10 @@
 const express = require('express');
-const User = require('../models/User');
+const Job = require('../models/Job');
 
 const router = express.Router();
 
 router.get('/', async(req,res)=>{
-    const data = await User.find;
+    const data = await Job.find;
     res.send("hello");
 })
 

@@ -8,9 +8,10 @@ const app = express();
 const port = 5000;
 
 app.use(cors());
+app.use(express.json());
 
-app.use('/api/user', require('./routes/user'));
-app.use('/api/company', require('./routes/company'));
+app.use('/api/userauth', require('./routes/user'));
+app.use('/api/companyauth', require('./routes/company'));
 app.use('/api/job', require('./routes/job'));
 
 app.listen(port, ()=>{

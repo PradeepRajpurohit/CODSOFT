@@ -9,6 +9,11 @@ const CompanySchema = new Schema({
     },
     email: {
         type: String,
+        require:true,
+        unique:true
+    },
+    password: {
+        type: String,
         require:true
     },
     intro: {
@@ -59,4 +64,4 @@ const CompanySchema = new Schema({
 
 const Company = mongoose.model('Company',CompanySchema);
 
-module.export = Company;
+module.exports = Company;

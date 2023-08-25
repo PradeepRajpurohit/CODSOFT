@@ -8,6 +8,11 @@ const UserSchema =  new Schema ({
     },
     email:{
         type: String,
+        require: true,
+        unique:true
+    },
+    password:{
+        type: String,
         require: true
     },
     contactNo:{
@@ -79,4 +84,4 @@ const UserSchema =  new Schema ({
 
 const User = mongoose.model('User',UserSchema);
 
-module.export = User;
+module.exports = User;
