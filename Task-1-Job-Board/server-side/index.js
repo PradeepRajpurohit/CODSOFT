@@ -13,6 +13,7 @@ app.use(express.json());
 app.use('/api/userauth', require('./routes/user'));
 app.use('/api/companyauth', require('./routes/company'));
 app.use('/api/job', require('./routes/job'));
+app.use('/api/application', require('./routes/application'));
 
 app.listen(port, ()=>{
     console.log(`applistening on port on port ${port}`)
