@@ -16,7 +16,7 @@ router.post('/createuser', async (req, res) => {
         //checking if user already exist or not.
         let user = await User.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({success, error: "User with this email already exists" })
+            return res.status(400).json({ success, error: "User with this email already exists" })
         }
 
         //creating new user
@@ -26,7 +26,83 @@ router.post('/createuser', async (req, res) => {
             name: req.body.name,
             email: req.body.email,
             password: setpass,
-            contactNo: req.body.contactNo,
+            contactNo: req.body.contactNo
+        });
+        const data = {
+            user: {
+                id: user.id
+            }
+        }
+        success = true;
+        const authToken = JWT.sign(data, JWT_Secret);
+        res.json({ success, authToken });
+    }
+
+    //catching error if any occur
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send("some Internal error occur.");
+    }
+})
+
+
+//ROUTE 2 : Authentiction user using: POST "/api/userauth/login. Login not Required"
+router.post('/login', async (req, res) => {
+    let success = false;
+
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ success, error: "Please try to login with correct credentials" });
+        }
+
+        console.log(user);
+        const passwordCompare = await bcrypt.compare(password, user.password);
+        if (!passwordCompare) {
+            return res.status(400).json({ success, error: "Please try to login with correct credentials" });
+        }
+        const data = {
+            user: {
+                id: user.id
+            }
+        }
+        success = true;
+        const authToken = JWT.sign(data, JWT_Secret);
+        res.json({ success, authToken });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("some Internal error occur.");
+    }
+})
+
+//ROUTE 3 : Get Loggedin user details using POST "/api/userauth/getuser". Login required.
+router.get('/getuser', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId).select("-password");
+        res.json(user);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("some Internal error occur.");
+    }
+})
+
+//Route 4 : Update user info using http://localhost:5000/api/userauth/updateinfo
+router.put('/updateinfo', fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send("Not Found");
+        }
+        const info = {
+
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            contactNo: user.contactNo,
             intro: req.body.intro,
             education: req.body.education,
             college: req.body.college,
@@ -41,65 +117,13 @@ router.post('/createuser', async (req, res) => {
             city: req.body.city,
             pin: req.body.pin,
             state: req.body.state
-        });
-        const data = {
-            user:{
-                id:user.id
-            }
-        }
-        success=true;
-        const authToken = JWT.sign(data, JWT_Secret);
-        res.json({success, authToken});
-    }
-
-    //catching error if any occur
-    catch (error) {
-        console.log(error.message);
-        res.status(500).send("some Internal error occur.");
-    }
-})
-
-
-//ROUTE 2 : Authentiction user using: POST "/api/userauth/login. Login not Required"
-router.post('/login', async(req,res)=>{
-    let success = false;
-
-    const{email,password} = req.body;
-    try {
-        const user = await User.findOne({email});
-        if(!user){
-            return res.status(400).json({success,error:"Please try to login with correct credentials"});
         }
 
-        console.log(user);
-        const passwordCompare = await bcrypt.compare(password,user.password);
-        if(!passwordCompare){
-            return res.status(400).json({success, error:"Please try to login with correct credentials"});
-        }
-        const data = {
-            user:{
-                id:user.id
-            }
-        }
-        success = true;
-        const authToken = JWT.sign(data, JWT_Secret);
-        res.json({success,authToken});
-
+        user = await Application.findByIdAndUpdate(userId, { $set: info }, { new: true })
+        res.json(user)
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send("some Internal error occur.");
-    }
-})
-
-//ROUTE 3 : Get Loggedin user details using POST "/api/userauth/getuser". Login required.
-router.get('/getuser',fetchuser,async(req,res)=>{
-    try {
-        userId = req.user.id;
-        const user = await User.findById(userId).select("-password");
-        res.json(user);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send("some Internal error occur.");
+        console.log(error);
+        res.status(500).send("some internal error");
     }
 })
 

@@ -1,23 +1,35 @@
-import React,{useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import AboutUser from './AboutUser';
 import AppliedJob from './AppliedJob';
+import { useDispatch, useSelector } from 'react-redux';
+import { UserDetail } from '../apiFunctions/getUserDetails';
 
 function User() {
 
-    
-  const [over, setOver] = useState('font-bold');
-  const [job, setJob] = useState();
+    const dispatch = useDispatch()
 
-  const handleShow = (box) => {
-    if (box === 'overview') {
-      setJob('font-normal')
-      setOver('font-bold')
+    useEffect(()=>{
+        // eslint-disable-next-line
+        {localStorage.getItem("authToken") && dispatch(UserDetail())}
+    },[dispatch])
+    
+    const user = useSelector(state => state.user.user);
+    
+    console.log(user);
+
+    const [over, setOver] = useState('font-bold');
+    const [job, setJob] = useState();
+
+    const handleShow = (box) => {
+        if (box === 'overview') {
+            setJob('font-normal')
+            setOver('font-bold')
+        }
+        if (box === 'jobs') {
+            setOver('font-normal')
+            setJob('font-bold')
+        }
     }
-    if (box === 'jobs') {
-      setOver('font-normal')
-      setJob('font-bold')
-    }
-  }
     return (
         <section className='bg-[#f8e6e4]'>
 
@@ -32,7 +44,7 @@ function User() {
                         <img className='object-cover z-10 inset-0 h-full rounded-full w-full top-0 block' src='https://cdn.wallpapersafari.com/83/54/b9KGv4.jpg' alt='bg' />
                     </div>
                     <div className='pl-36 pr-4'>
-                        <h2 className='font-semibold text-lg md:text-2xl'>Pradeep Singh Rajpurohit</h2>
+                        <h2 className='font-semibold text-lg md:text-2xl'>{user.name}</h2>
                         <p className='text-sm'>We collectively can create a healthier world</p>
                     </div>
                     <div className='flex space-x-8 text-xl mb-2 mt-4'>
@@ -43,10 +55,10 @@ function User() {
                 </div>
                 <div>
                     {over === 'font-bold' ?
-                     <AboutUser /> 
-                    : <div className='p-4'>
-                        <AppliedJob />
-                    </div>}
+                        <AboutUser />
+                        : <div className='p-4'>
+                            <AppliedJob />
+                        </div>}
                 </div>
             </div>
 

@@ -1,88 +1,10 @@
 import React from 'react'
-import logo from '../assests/logo.png'
 import {Link} from 'react-router-dom';
 
 function Footer() {
     return (
-        <footer class="text-white body-font">
-            <div class="bg-[#990011] sm:px-10 p-5 sm:py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-                <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
-                <div className='ml-3 w-60 h-10'>
-                    <img className='object-cover w-full h-full' src={logo} alt=''/>
-                </div>
-                </div>
-                <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
-                    <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                        <h2 class="title-font font-semibold tracking-widest text-sm mb-3">CATEGORIES</h2>
-                        <nav class="list-none mb-10">
-                            <li>
-                                <Link class="hover:opacity-80">First Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Second Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Third Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Fourth Link</Link>
-                            </li>
-                        </nav>
-                    </div>
-                    <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                        <h2 class="title-font font-semibold  tracking-widest text-sm mb-3">CATEGORIES</h2>
-                        <nav class="list-none mb-10">
-                            <li>
-                                <Link class="hover:opacity-80">First Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Second Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Third Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Fourth Link</Link>
-                            </li>
-                        </nav>
-                    </div>
-                    <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                        <h2 class="title-font font-semibold  tracking-widest text-sm mb-3">CATEGORIES</h2>
-                        <nav class="list-none mb-10">
-                            <li>
-                                <Link class="hover:opacity-80">First Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Second Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Third Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Fourth Link</Link>
-                            </li>
-                        </nav>
-                    </div>
-                    <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                        <h2 class="title-font font-semibold  tracking-widest text-sm mb-3">CATEGORIES</h2>
-                        <nav class="list-none mb-10">
-                            <li>
-                                <Link class="hover:opacity-80">First Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Second Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Third Link</Link>
-                            </li>
-                            <li>
-                                <Link class="hover:opacity-80">Fourth Link</Link>
-                            </li>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-[#990011]">
+        <footer id='footer' class="text-white body-font">
+                <div class="bg-[#990011]">
                 <hr></hr>
                 <div class="py-4 sm:px-10 px-5 flex flex-wrap flex-col sm:flex-row">
                     <p class="opacity-80 text-sm text-center sm:text-left">© 2023 Job Junction —

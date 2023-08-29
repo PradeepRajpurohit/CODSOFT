@@ -9,19 +9,7 @@ const Corousel = () => {
 
     useEffect(() => {
         showSlide(slideIndex);
-        // moveSlide(1);
-        // start();
-        // eslint-disable-next-line
     }, []);
-
-
-    // const start=()=>setInterval(()=>{
-    //     moveSlide(1);
-    // },5000);
-
-    // const moveSlide = (moveStep) => {
-    //     showSlide(slideIndex += moveStep);
-    // }
 
     const showSlide = (n) => {
 
@@ -29,13 +17,6 @@ const Corousel = () => {
 
         const slides = document.getElementsByClassName('slide');
         const dots = document.getElementsByClassName('dot');
-
-        // if (n > slides.length) {
-        //     slideIndex = 1;
-        // }
-        // if (n < 1) {
-        //     slideIndex = slides.length;
-        // }
 
         for (let i = 0; i < slides.length; i++) {
             slides[i].classList.add('hidden');

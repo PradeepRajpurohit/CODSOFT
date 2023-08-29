@@ -10,8 +10,20 @@ const JobSchema = new Schema({
         type: String,
         require: true
     },
+    companyName: {
+        type: String,
+        require: true
+    },
     experienceRequired: {
         type: Number,
+        require: true
+    },
+    desc: {
+        type: String,
+        require: true
+    },
+    industry: {
+        type: String,
         require: true
     },
     salary: {

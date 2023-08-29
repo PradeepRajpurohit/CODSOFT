@@ -1,17 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AboutCompany from './AboutCompany'
 import JobList from '../JobList'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { CompanyDetail } from '../../apiFunctions/getCompanyDetail'
+import { PostedJobs } from '../../apiFunctions/getJobs'
 
 function Company() {
 
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    // eslint-disable-next-line
+    {localStorage.getItem("authToken") && dispatch(CompanyDetail())}
+  },[dispatch])
+
+  const company = useSelector(state => state.company.company);
+
   const [over, setOver] = useState('font-bold');
   const [job, setJob] = useState();
-  const navigate = useNavigate();
 
-  const handledetail=()=>{
-    navigate('/application-recieved')
-  }
+  useEffect(()=>{
+    dispatch(PostedJobs())
+  },[dispatch])
 
   const handleShow = (box) => {
     if (box === 'overview') {
@@ -37,7 +48,7 @@ function Company() {
             <img className='object-cover z-10 inset-0 h-full w-full top-0 block' src='https://cdn.wallpapersafari.com/83/54/b9KGv4.jpg' alt='bg' />
           </div>
           <div className='pl-36 pr-4'>
-            <h2 className='font-semibold text-lg md:text-2xl'>TCS</h2>
+            <h2 className='font-semibold text-lg md:text-2xl'>{company.name}</h2>
             <p className='text-sm'>We collectively can create a healthier world</p>
           </div>
           <div className='flex space-x-8 text-xl mb-2 mt-4'>
@@ -53,7 +64,7 @@ function Company() {
               <Link to='/post-new-job' className="inline-flex items-center text-[#990011] transition duration-500 ease-in-out bg-white p-3 px-6 focus:outline-none  rounded-full hover:bg-[#990011] hover:text-white border-2 text-base sm:text-lg">Post a new Job</Link>
             </div>
           </div>
-          <div onClick={handledetail}>
+          <div>
             <JobList />
             </div>
           </div>}

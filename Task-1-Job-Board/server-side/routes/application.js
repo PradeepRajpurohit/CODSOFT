@@ -7,6 +7,7 @@ const router = express.Router();
 
 //create Application http://localhost:5000/api/application/createapplication
 router.post('/createapplication', fetchuser, async (req, res) => {
+    let success = false;
     try {
         const application = await Application.create({
             user: req.user.id,
@@ -18,10 +19,11 @@ router.post('/createapplication', fetchuser, async (req, res) => {
             skills: req.body.skills,
             status: "Pending"
         })
-        res.json(application);
+        success = true;
+        res.json({ success, application });
     } catch (error) {
         console.log(error);
-        res.status(500).send("some internal error occur");
+        res.status(500).send({ success, error: "some internal error occur" });
     }
 })
 
@@ -29,9 +31,18 @@ router.post('/createapplication', fetchuser, async (req, res) => {
 router.get('/getappliedjob', fetchuser, async (req, res) => {
     try {
         let appliedjob = await Application.find({ user: req.user.id });
-        let jobDetail = await getJobDetail(appliedjob);
-
-        res.json([appliedjob, jobDetail])
+        let jobApplied = [];
+        for (let i = 0; i < appliedjob.length; i++) {
+            let jobDetail = await getJobDetail(appliedjob[i]);
+            // jobDetail["status"] = appliedjob[i].status;
+            const other = {
+                'status':appliedjob[i].status,
+                'date':appliedjob[i].date
+            }
+            jobApplied.push({jobDetail, other}) 
+        }
+        console.log(jobApplied)
+        res.json(jobApplied)
     } catch (error) {
         console.log(error);
         res.status(500).send("some internal error occur");
@@ -39,22 +50,12 @@ router.get('/getappliedjob', fetchuser, async (req, res) => {
 })
 
 async function getJobDetail(appliedjob) {
-    const jobPromises = appliedjob.map(async (appl) => {
-        let x = await Job.findById(appl.job);
-        console.log(x);
-        return x;
-    })
-    try {
-        const jobDetails = await Promise.all(jobPromises);
-        return jobDetails;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+    let x = await Job.findById(appliedjob.job);
+    return x;
 }
 
 //get all the application recieved on perticular job http://localhost:5000/application/getapplication
-router.get('/getapplication', async (req, res) => {
+router.post('/getapplication', async (req, res) => {
     try {
         const application = await Application.find({ job: req.body.job })
         res.json(application);
@@ -73,16 +74,16 @@ router.put('/updatestatus/:id', async (req, res) => {
         }
         const newApplication = {
 
-            user:application.user,
-            name:application.name,
-            email:application.email,
-            experience:application.experience,
-            intro:application.intro,
-            skills:application.skills,
-            status:req.body.status
+            user: application.user,
+            name: application.name,
+            email: application.email,
+            experience: application.experience,
+            intro: application.intro,
+            skills: application.skills,
+            status: req.body.status
         }
 
-        application = await Application.findByIdAndUpdate(req.params.id, {$set: newApplication},{new:true})
+        application = await Application.findByIdAndUpdate(req.params.id, { $set: newApplication }, { new: true })
         res.json(application)
     } catch (error) {
         console.log(error);

@@ -1,15 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoTimeOutline, IoLocationSharp } from 'react-icons/io5';
 import { AiOutlineFileSearch } from 'react-icons/ai'
 import { BsFileEarmarkCheckFill } from 'react-icons/bs'
 import { SiPostman } from 'react-icons/si'
 import Corousel from './Corousel';
+import { useDispatch, useSelector } from 'react-redux';
+import { JobListed } from '../apiFunctions/getJobs';
+import { setJob } from '../store/jobSlice';
 
 
 function Home() {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(JobListed())
+  }, [dispatch])
+
+  const handleDetails = (job) => {
+    dispatch(setJob(job))
+    navigate('jobdetails')
+    
+  }
+
   let Categories = ["Engineering", "Software", "HR", "Management", "BDO & Sales", "Marketing", "Reasearch", "Internship"];
+
+  const jobs = useSelector(state => state.job.jobs)
+
   return (
     <>
       <main className='bg-[#f8e6e4]'>
@@ -18,8 +37,8 @@ function Home() {
             <h1 className='font-semibold text-3xl sm:text-6xl mb-4'>Find Your Dream Job</h1>
             <p className='mb-12 sm:text-lg'>To Many Jobs are Listed for You to explore </p>
             <div className='space-x-4 font-semibold mb-12'>
-              <Link to='/login' class="inline transition duration-500 ease-in-out items-center text-white bg-green-600 p-3 focus:outline-none hover:bg-[#990011] border-2 border-green-600 rounded text-base sm:text-lg">Upload Resume</Link>
-              <Link to='/' class="inline items-center text-white transition duration-500 ease-in-out bg-green-600 p-3 focus:outline-none  rounded hover:bg-[#990011] border-green-600 border-2 text-base sm:text-lg">Post a Job</Link>
+              <Link to='/login' class="inline transition duration-500 ease-in-out items-center text-white bg-green-600 p-3 focus:outline-none hover:bg-[#990011] border-2 border-green-600 rounded text-base sm:text-lg">Find Job</Link>
+              <Link to='/recruiter-login' class="inline items-center text-white transition duration-500 ease-in-out bg-green-600 p-3 focus:outline-none  rounded hover:bg-[#990011] border-green-600 border-2 text-base sm:text-lg">Post a Job</Link>
             </div>
             <div class="">
               <div class="relative mb-4 flex w-full flex-wrap items-stretch ">
@@ -74,21 +93,21 @@ function Home() {
           <div className='mt-6 sm:mt-8'>
             <h1 className='font-semibold text-2xl sm:text-4xl mb-4 sm:mb-6 mt-2'>Recent Jobs</h1>
             <div className='grid gap-2 sm:gap-4 grid-cols-1'>
-              {Categories.map((i, key) =>
+              {jobs.slice(0, 4).map((i, key) =>
                 <div key={key} className='bg-white hover:shadow-xl transition duration-500 ease-in-out rounded p-4 sm:p-6'>
                   <div className='flex flex-col sm:flex-row sm:justify-between space-y-2 sm:items-center'>
                     <div className='flex flex-col min-[400px]:flex-row'>
-                      <div className='w-20 p-2 border-2 mr-6'>
-                        <img className='' src='https://logos-download.com/wp-content/uploads/2018/05/TATA_Football_Academy_de_Jamshedpur_logo_blue.png' alt='com' />
+                      <div className='w-20 p-0 border-2 mr-6 flex items-center'>
+                        <img className='' src='https://www.clipartmax.com/png/middle/283-2833048_small-business-logo-icon-company-name-icon.png' alt='com' />
                       </div>
                       <div>
-                        <h3 className='font-semibold text-2xl sm:text-3xl mx-2'>Softwere Developer</h3>
-                        <p className='flex items-center text-gray-700 font-medium'><span className='mx-2'><IoLocationSharp /></span>Mumbai,India</p>
-                        <p className='flex items-center text-gray-700 font-medium'><span className='mx-2'><IoTimeOutline /></span>Full time</p>
+                        <h3 className='font-semibold text-2xl sm:text-3xl mx-2'>{i.title}</h3>
+                        <p className='flex items-center text-gray-700 font-medium'><span className='mx-2'><IoLocationSharp /></span>{i.location}</p>
+                        <p className='flex items-center text-gray-700 font-medium'><span className='mx-2'><IoTimeOutline /></span>{i.jobType}</p>
                       </div>
                     </div>
                     <div className='my-4'>
-                      <Link to='/' className="inline-flex items-center text-[#990011] transition duration-500 ease-in-out bg-white p-3 px-6 focus:outline-none  rounded-full hover:bg-[#990011] hover:text-white border-2 text-base sm:text-lg">Apply Now</Link>
+                      <button onClick={()=>{handleDetails(i)}} className="inline-flex items-center text-[#990011] transition duration-500 ease-in-out bg-white p-3 px-6 focus:outline-none  rounded-full hover:bg-[#990011] hover:text-white border-2 text-base sm:text-lg">Apply Now</button>
                     </div>
                   </div>
                 </div>)}
@@ -105,7 +124,7 @@ function Home() {
                   <div className='flex flex-row space-y-2 items-center'>
 
                     <div className='w-14 p-2 border-2 mr-4'>
-                      <img className='' src='https://logos-download.com/wp-content/uploads/2018/05/TATA_Football_Academy_de_Jamshedpur_logo_blue.png' alt='com' />
+                      <img className='' src='https://www.clipartmax.com/png/middle/283-2833048_small-business-logo-icon-company-name-icon.png' alt='com' />
                     </div>
                     <div>
                       <h2 className='text-xl sm:text-2xl font-semibold'>TCS</h2>

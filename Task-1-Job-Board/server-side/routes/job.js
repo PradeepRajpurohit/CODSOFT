@@ -6,23 +6,27 @@ const router = express.Router();
 
 //create job http://localhost:5000/api/job/createjob
 router.post('/createjob',fetchcompany, async(req,res)=>{
+    let success = false;
     try {
         const job = await Job.create({
             company: req.company.id,
             title: req.body.title,
+            comapnyName:req.body.companyName,
+            industry:req.body.industry,
+            desc:req.body.desc,
             experienceRequired: req.body.experienceRequired,
             salary: req.body.salary,
             location: req.body.location,
             opening: req.body.opening,
-            role: req.body.role,
             jobType:req.body.jobType,
             roleCategory:req.body.roleCategory,
             skills:req.body.skills
         })
-        res.json(job)
+        success = true;
+        res.json({success,job})
     } catch (error) {
         console.log(error);
-        res.status(500).send("some Internal error occur");
+        res.status(500).send({success,error:"some Internal error occur"});
     }
 })
 

@@ -1,16 +1,25 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { BsBag, BsCurrencyRupee } from 'react-icons/bs'
 import { IoLocationOutline } from 'react-icons/io5'
 import JobList from './JobList'
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function JobDetails() {
 
+  const job = useSelector(state => state.job.job)
+  const user = useSelector(state => state.user.user)
+
   const navigate = useNavigate();
 
-  const handleDetails = () => {
-    navigate('/jobdetails')
+  const handleApply = ()=>{
+    if(!user.name){
+      alert('login to user account')
+      navigate('/login')
+    }
+    else{
+      navigate('/apply-for-job')
+    }
   }
 
   return (
@@ -18,24 +27,24 @@ function JobDetails() {
       <div className='p-4 space-y-2 col-span-6 '>
         <div className='bg-white p-2 rounded-md space-y-1 shadow-lg shadow-red-800/50 text-gray-700'>
           <div className='mb-2'>
-            <h2 className='text-lg font-semibold md:text-xl text-black'>Web Developer - FrontEnd</h2>
-            <p className='font-medium'>Microsoft</p>
+            <h2 className='text-lg font-semibold md:text-xl text-black'>{job.title}</h2>
+            <p className='font-medium'>{job.companyName}</p>
           </div>
           <div className='flex max-[375px]:text-sm '>
-            <span className='flex items-center space-x-1 mr-2'><BsBag /><p>0-2 yrs | </p></span>
-            <span className='flex items-center space-x-1 mr-2'><BsCurrencyRupee /><p>0-3 LPA | </p></span>
+            <span className='flex items-center space-x-1 mr-2'><BsBag /><p>{job.experienceRequired} yrs | </p></span>
+            <span className='flex items-center space-x-1 mr-2'><BsCurrencyRupee /><p>{job.salary} LPA | </p></span>
           </div>
-          <p className='flex items-center mb-2 space-x-1'><IoLocationOutline /><span>Jaipur, Rajasthan </span></p>
+          <p className='flex items-center mb-2 space-x-1'><IoLocationOutline /><span>{job.location}</span></p>
           <hr />
           <div className='flex justify-between items-center'>
             <div className='md:flex font-medium md:space-x-2'>
-              <p className='text-sm'>Posted: 30 Days ago <span className='mx-2 hidden md:inline'>|</span></p>
-              <p className='text-sm'>Openings: 2<span className='mx-2 hidden md:inline'>|</span></p>
+              <p className='text-sm'>Posted: {job.date} <span className='mx-2 hidden md:inline'>|</span></p>
+              <p className='text-sm'>Openings: {job.opening}<span className='mx-2 hidden md:inline'>|</span></p>
               <p className='text-sm'>Applicants: 500</p>
             </div>
 
             <div className='my-2'>
-              <Link to='/apply-for-job' className="inline-flex items-center text-[#990011] transition duration-500 ease-in-out bg-white p-3 px-6 focus:outline-none  rounded-full hover:bg-[#990011] hover:text-white border-2 text-base sm:text-lg">Apply Now</Link>
+              <button onClick={handleApply} className="inline-flex items-center text-[#990011] transition duration-500 ease-in-out bg-white p-3 px-6 focus:outline-none  rounded-full hover:bg-[#990011] hover:text-white border-2 text-base sm:text-lg">Apply Now</button>
             </div>
           </div>
 
@@ -44,28 +53,17 @@ function JobDetails() {
           <h2 className='text-lg font font-semibold'>Job Description</h2>
           <div>
             <h3 className='font-medium'>Role & Resposibilities</h3>
-            <p>Writing reusable, testable, and efficient code
-              Design and implementation of low-latency, high-availability, and performant applications analyses the given data in order to have meaningful inside using statistics and data since</p>
-          </div>
-          <div >
-            <h3 className='font-medium'>Perks and benefits</h3>
-            <p>Flexible timings</p>
-            <p>informal attire</p>
+            <p>{job.desc}</p>
           </div>
           <div className='font-medium'>
-            <p>Role: <span className='font-normal'>FrontEnd Developer</span></p>
-            <p>Industry Type: <span className='font-normal'>Technology</span></p>
-            <p>Employement Type: <span className='font-normal'>FullTime Parmanent</span></p>
-            <p>Role Category: <span className='font-normal'>Softwere Development</span></p>
-          </div>
-          <div className='font-medium'>
-            <h3>Education</h3>
-            <p>UG: <span className='font-normal'>B.Tech/B.E. in Computer Science</span></p>
-            <p>PG: <span className='font-normal'>M.Tech/MCA in Computer Science</span></p>
+            <p>Role: <span className='font-normal'>{job.title}</span></p>
+            <p>Industry Type: <span className='font-normal'>{job.indutry}</span></p>
+            <p>Employement Type: <span className='font-normal'>{job.jobType}</span></p>
+            <p>Role Category: <span className='font-normal'>{job.roleCategory}</span></p>
           </div>
           <div>
             <h3 className='font-medium'>Key Skills</h3>
-            <p>Java, javascript,Java, javascript,Java, javascript,Java, javascript</p>
+            <p>{job.skills}</p>
           </div>
         </div>
 
@@ -80,7 +78,7 @@ function JobDetails() {
       </div>
       <div className='col-span-4'>
         <h2 className='text-3xl font-semibold px-4 mt-4'>More Similar Jobs</h2>
-        <div onClick={handleDetails}>
+        <div>
           <JobList />
         </div>
       </div>
