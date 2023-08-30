@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { CompanyDetail } from '../../apiFunctions/getCompanyDetail'
 import { PostedJobs } from '../../apiFunctions/getJobs'
+import { setJobSearch } from '../../store/jobSlice'
 
 function Company() {
 
@@ -13,6 +14,7 @@ function Company() {
   useEffect(()=>{
     // eslint-disable-next-line
     {localStorage.getItem("authToken") && dispatch(CompanyDetail())}
+    dispatch(setJobSearch(''))
   },[dispatch])
 
   const company = useSelector(state => state.company.company);

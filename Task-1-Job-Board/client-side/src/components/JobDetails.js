@@ -40,7 +40,7 @@ function JobDetails() {
             <div className='md:flex font-medium md:space-x-2'>
               <p className='text-sm'>Posted: {job.date} <span className='mx-2 hidden md:inline'>|</span></p>
               <p className='text-sm'>Openings: {job.opening}<span className='mx-2 hidden md:inline'>|</span></p>
-              <p className='text-sm'>Applicants: 500</p>
+              <p className='text-sm'>Applicants: {job.application}</p>
             </div>
 
             <div className='my-2'>
@@ -77,10 +77,8 @@ function JobDetails() {
 
       </div>
       <div className='col-span-4'>
-        <h2 className='text-3xl font-semibold px-4 mt-4'>More Similar Jobs</h2>
-        <div>
-          <JobList />
-        </div>
+        <h3 className='mt-2 ml-4 text-2xl font-semibold '>More Jobs</h3>
+        <JobList/>
       </div>
     </div>
   )

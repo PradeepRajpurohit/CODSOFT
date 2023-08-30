@@ -54,6 +54,10 @@ const JobSchema = new Schema({
         type: String,
         require: true
     },
+    application:{
+        type:Number,
+        default: 0
+    },
     date:{
         type : Date,
         default: Date.now

@@ -6,12 +6,16 @@ import { FcLike } from 'react-icons/fc'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-function JobList({search}) {
+function JobList() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const {jobs,navigation} = useSelector(state => state.job);
+
+    let search = useSelector(state => state.job.search)
+
+    console.log(search)
 
     const handleDetails = (job) => {
         dispatch(setJob(job))
@@ -20,7 +24,7 @@ function JobList({search}) {
     
     return (
         <div className='p-4 space-y-2'>
-            {jobs.filter((job) => {return search.toLowerCase() ==='' ? job : job.title.toLowerCase().includes(search)}).map((job) => {
+            {jobs.filter((item) => {return (search ==='' || search === undefined) ? item : item.title.toLowerCase().includes(search)}).map((job) => {
                 return <div  onClick={()=>{handleDetails(job)}} className='bg-white p-2 cursor-pointer rounded-md space-y-1 shadow-lg shadow-red-800/50 text-gray-700'>
                     <div className='mb-2'>
                         <h2 className='text-lg font-semibold md:text-xl text-black'>{job.title}</h2>

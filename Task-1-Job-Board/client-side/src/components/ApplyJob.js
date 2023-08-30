@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { CreateNewApplication } from '../apiFunctions/getApplication';
 import { useSelector } from 'react-redux';
+import { UpdateJob } from '../apiFunctions/getJobs';
 
 function ApplyJob() {
 
@@ -14,6 +15,7 @@ function ApplyJob() {
 
     const handleSubmit = (e)=>{
         e.preventDefault();
+        UpdateJob(job._id,job.applicaton+1)
         CreateNewApplication(appDetail);
     }
     return (

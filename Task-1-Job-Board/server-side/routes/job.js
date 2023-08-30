@@ -52,4 +52,36 @@ router.get('/postedjobs', fetchcompany, async(req,res)=>{
     }
 })
 
+//update status of job http://localhost:5000/job/updatestatus:id
+router.put('/updatejob/:id', async (req, res) => {
+    try {
+        let job = await Job.findById(req.params.id);
+        if (!job) {
+            return res.status(404).send("Not Found");
+        }
+        const newJob = {
+
+            company: job.id,
+            title: job.title,
+            comapnyName:job.companyName,
+            industry:job.industry,
+            desc:job.desc,
+            experienceRequired: job.experienceRequired,
+            salary:job.salary,
+            location: job.location,
+            opening: job.opening,
+            jobType:job.jobType,
+            roleCategory:job.roleCategory,
+            skills:job.skills,
+            application: req.body.application
+        }
+
+        job = await Job.findByIdAndUpdate(req.params.id, { $set: newJob}, { new: true })
+        res.json(job)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("some internal error");
+    }
+})
+
 module.exports = router;

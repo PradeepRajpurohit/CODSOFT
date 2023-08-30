@@ -72,7 +72,7 @@ function Navbar() {
 
                {localStorage.getItem('authToken') ? <div onClick={handleuser} className='h-10 w-10 cursor-pointer overflow-hidden rounded-full border-2'>
                     <img className='object-cover w-full h-full' src='https://freesvg.org/img/man-chris-kempson-01.png' alt='' />
-                </div>:<div className=' sm:block space-x-4 font-semibold'>
+                </div>:<div className=' sm:block space-x-4 hidden font-semibold'>
                     <Link to='/login' class="inline-flex transition duration-500 ease-in-out items-center text-[#990011] bg-gray-100 border-2 py-1 px-3 focus:outline-none hover:bg-transparent hover:text-white rounded text-base">Login</Link>
                     <Link to='/recruiter-login' class="inline-flex transition duration-500 ease-in-out  items-center text-[#990011] bg-white border-2 py-1 px-3 focus:outline-none hover:bg-transparent hover:text-white rounded text-base">Post a Job</Link>
                 </div>}
@@ -83,8 +83,7 @@ function Navbar() {
             <div className={`bg-[#990011] ${show} sm:hidden absolute w-full opacity-90 flex flex-col px-5 p-4 space-y-2`}>
                 <Link to='/' class="hover:font-semibold">Home</Link>
                 <Link to='/jobs' class="hover:font-semibold">Jobs</Link>
-                <Link to='/jobs' class="hover:font-semibold">Blogs</Link>
-                <Link to='/jobs' class="hover:font-semibold">Contact</Link>
+                <a href='#footer' class="hover:font-semibold">Contact</a>
             </div>
         </header>
     )

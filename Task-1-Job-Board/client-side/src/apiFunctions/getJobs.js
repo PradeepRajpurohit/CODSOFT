@@ -46,4 +46,17 @@ const CreateNewJob = async (jobDetail) => {
     }
 }
 
-export { JobListed, CreateNewJob,PostedJobs };
+const UpdateJob = async(id,application) =>{
+    const response = await fetch(`http://localhost:5000/api/job/updatejob/${id}`, {
+        method:'PUT',
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({application:application})
+    });
+
+    const json = await response.json();
+    console.log(json.success)
+    
+}
+export { UpdateJob, JobListed, CreateNewJob,PostedJobs };

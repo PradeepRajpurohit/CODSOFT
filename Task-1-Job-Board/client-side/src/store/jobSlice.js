@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const jobReducer = createSlice({
     name: 'job',
     initialState: {
+        search: '',
         jobs: [],
         navigation: '',
         job: {}
@@ -28,13 +29,19 @@ export const jobReducer = createSlice({
         }, setJob:(state,action)=>{
             return{
                 ...state,
-                job:action.payload
+                job: action.payload
+            }
+        },
+        setJobSearch:(state,action)=>{
+            return{
+                ...state,
+                search: action.payload
             }
         }
     }
 
 })
 
-export const { getAllJobs, getPostedJobs,setNavigation,setJob } = jobReducer.actions;
+export const { getAllJobs, getPostedJobs,setNavigation,setJob,setJobSearch } = jobReducer.actions;
 
 export default jobReducer.reducer;
